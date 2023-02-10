@@ -62,26 +62,29 @@ def validatePwd(username: str, password: str) -> bool:
     else:
         return False
 
-# Load user data for usernames & passwords.
-loginData = pd.read_csv(config.csvPath)
-print(loginData.head(4))
 
-# Iterate over the loaded dataset & validate the password.
-# Update "usernames" & "results" in the each iteration.
-for idx, row in loginData.iterrows():
-    if validatePwd(row['username'], row['password']):
-        config.results['total'] += 1
-        config.results['valid'] += 1
-    else:
-        config.results['total'] += 1
-        config.results['invalid'] += 1
-        config.userNames.append(row['username'])
+if __name__ == "__main__":
 
-# Create a pandas series of Usernames with bad passwords.
-userList = pd.Series(user for user in config.userNames)
-userList = userList.sort_values()
+    # Load user data for usernames & passwords.
+    loginData = pd.read_csv(config.csvPath)
+    print(loginData.head(4))
 
-# Calc % of passwords that do not meet NIST standards. (weakPasswords / totalPasswords) * 100
-weakPasswordPercent = round(config.results['invalid'] / config.results['total'], 2)
-print('Percentage(%) of users with weak password:', weakPasswordPercent * 100)
+    # Iterate over the loaded dataset & validate the password.
+    # Update "usernames" & "results" in the each iteration.
+    for idx, row in loginData.iterrows():
+        if validatePwd(row['username'], row['password']):
+            config.results['total'] += 1
+            config.results['valid'] += 1
+        else:
+            config.results['total'] += 1
+            config.results['invalid'] += 1
+            config.userNames.append(row['username'])
+
+    # Create a pandas series of Usernames with bad passwords.
+    userList = pd.Series(user for user in config.userNames)
+    userList = userList.sort_values()
+
+    # Calc % of passwords that do not meet NIST standards. (weakPasswords / totalPasswords) * 100
+    weakPasswordPercent = round(config.results['invalid'] / config.results['total'], 2)
+    print('Percentage(%) of users with weak password:', weakPasswordPercent * 100)
 
