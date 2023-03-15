@@ -7,7 +7,7 @@ def initSess():
 
 def initSessVarsTopicMod(session):
 
-    if 'modified' not in session.keys():
+    if 'dataModified' not in session.keys():
         session.dataModified = False
 
     if 'dataFrame' not in session.keys():
