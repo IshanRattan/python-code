@@ -21,9 +21,7 @@ def clean_corpus(corpus : str, non_breaking_prefix : list) -> list:
     corpus = re.sub(r'  +', ' ', corpus)
     return corpus.split('\n')
 
-def preprocess_data() -> (tf.data.Dataset,
-                          tfds.deprecated.text.SubwordTextEncoder,
-                          tfds.deprecated.text.SubwordTextEncoder):
+def preprocess_data() -> (tf.data.Dataset, int, int):
 
     europarl_en = load_data(config.path_en_input)
     europarl_fr = load_data(config.path_fr_input)
