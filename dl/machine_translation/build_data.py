@@ -5,7 +5,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from keras.preprocessing.sequence import pad_sequences
 
-from transformer.configs import config
+from configs import config
 
 
 def load_data(path : str) -> str:
@@ -21,7 +21,10 @@ def clean_corpus(corpus, non_breaking_prefix):
     corpus = re.sub(r'  +', ' ', corpus)
     return corpus.split('\n')
 
-def preprocess_data():
+def preprocess_data() -> (tf.data.Dataset,
+                          tfds.deprecated.text.SubwordTextEncoder,
+                          tfds.deprecated.text.SubwordTextEncoder):
+
     europarl_en = load_data(config.path_en_input)
     europarl_fr = load_data(config.path_fr_input)
 
@@ -31,8 +34,8 @@ def preprocess_data():
     non_breaking_prefix_fr = load_data(config.path_fr_nonbreak)
     non_breaking_prefix_fr = [' ' + prefix + '.' for prefix in non_breaking_prefix_fr.split('\n')]
 
-    corpus_en = clean_corpus(europarl_en, non_breaking_prefix_en)[:100]
-    corpus_fr = clean_corpus(europarl_fr, non_breaking_prefix_fr)[:100]
+    corpus_en = clean_corpus(europarl_en, non_breaking_prefix_en)
+    corpus_fr = clean_corpus(europarl_fr, non_breaking_prefix_fr)
 
     # init tokenizer for en(input) & fr(output) language
     tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(corpus_en, target_vocab_size=2**13)
@@ -47,20 +50,19 @@ def preprocess_data():
     outputs = [[VOCAB_SIZE_FR - 2] + tokenizer_fr.encode(sentence) + [VOCAB_SIZE_FR - 1]
               for sentence in corpus_fr]
 
-    MAX_LENGTH = config.MAX_LENGTH
-    idx_to_remove = [count for count, sentence in enumerate(inputs) if len(sentence) > MAX_LENGTH]
+    idx_to_remove = [count for count, sentence in enumerate(inputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
         del inputs[idx]
         del outputs[idx]
 
-    idx_to_remove = [count for count, sentence in enumerate(outputs) if len(sentence) > MAX_LENGTH]
+    idx_to_remove = [count for count, sentence in enumerate(outputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
         del inputs[idx]
         del outputs[idx]
 
     # padding
-    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=MAX_LENGTH)
-    outputs = pad_sequences(outputs, value=0, padding='post', maxlen=MAX_LENGTH)
+    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
+    outputs = pad_sequences(outputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
 
     dataset = tf.data.Dataset.from_tensor_slices((inputs, outputs))
     dataset = dataset.cache()
