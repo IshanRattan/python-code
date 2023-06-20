@@ -13,7 +13,7 @@ class PositionalEncoding(Layer):
     def __init__(self):
         super(PositionalEncoding, self).__init__()
 
-    def get_angles(self, pos, i, d_model):
+    def get_angles(self, pos : np.ndarray, i : np.ndarray, d_model : int) -> np.ndarray:
         '''Calculate product of position vector(pos) with angles vector(angles)'''
 
         # dims(params) : pos = (seq_length, 1) , i = (1, d_model), d_model = int
@@ -24,7 +24,7 @@ class PositionalEncoding(Layer):
         # matrix of dims (MAX_LENGTH, d_model)
         return pos * angles
 
-    def call(self, inputs):
+    def call(self, inputs : tf.Tensor) -> tf.Tensor:
         '''Calculate positional encoding and add them to the original inputs'''
 
         # seq_length same as allowed MAX_LENGTH of sentence
