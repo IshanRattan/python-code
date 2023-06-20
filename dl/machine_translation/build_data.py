@@ -23,49 +23,49 @@ def clean_corpus(corpus : str, non_breaking_prefix : list) -> list:
 
 def preprocess_data() -> (tf.data.Dataset, int, int):
 
-    europarl_en = load_data(config.path_en_input)
-    europarl_fr = load_data(config.path_fr_input)
+    input_language_dataset = load_data(config.path_en_input)
+    target_language_dataset = load_data(config.path_fr_input)
 
-    non_breaking_prefix_en = load_data(config.path_en_nonbreak)
-    non_breaking_prefix_en = [' ' + prefix + '.' for prefix in non_breaking_prefix_en.split('\n')]
+    non_breaking_prefix_input_lang = load_data(config.path_en_nonbreak)
+    non_breaking_prefix_input_lang = [' ' + prefix + '.' for prefix in non_breaking_prefix_input_lang.split('\n')]
 
-    non_breaking_prefix_fr = load_data(config.path_fr_nonbreak)
-    non_breaking_prefix_fr = [' ' + prefix + '.' for prefix in non_breaking_prefix_fr.split('\n')]
+    non_breaking_prefix_target_lang = load_data(config.path_fr_nonbreak)
+    non_breaking_prefix_target_lang = [' ' + prefix + '.' for prefix in non_breaking_prefix_target_lang.split('\n')]
 
-    corpus_en = clean_corpus(europarl_en, non_breaking_prefix_en)
-    corpus_fr = clean_corpus(europarl_fr, non_breaking_prefix_fr)
+    input_language_preprocessed = clean_corpus(input_language_dataset, non_breaking_prefix_input_lang)
+    target_language_preprocessed = clean_corpus(target_language_dataset, non_breaking_prefix_target_lang)
 
-    # init tokenizer for en(input) & fr(output) language
-    tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(corpus_en, target_vocab_size=2**13)
-    tokenizer_fr = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(corpus_fr, target_vocab_size=2**13)
+    # init tokenizer for en(input) & fr(target) language
+    tokenizer_input_lang = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(input_language_preprocessed, target_vocab_size=2**13)
+    tokenizer_target_lang = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(target_language_preprocessed, target_vocab_size=2**13)
 
-    VOCAB_SIZE_EN = tokenizer_en.vocab_size + 2
-    VOCAB_SIZE_FR = tokenizer_fr.vocab_size + 2
+    vocab_size_input_lang = tokenizer_input_lang.vocab_size + 2
+    vocab_size_target_lang = tokenizer_target_lang.vocab_size + 2
 
-    inputs = [[VOCAB_SIZE_EN - 2] + tokenizer_en.encode(sentence) + [VOCAB_SIZE_EN - 1]
-              for sentence in corpus_en]
+    model_inputs = [[vocab_size_input_lang - 2] + tokenizer_input_lang.encode(sentence) + [vocab_size_input_lang - 1]
+              for sentence in input_language_preprocessed]
 
-    outputs = [[VOCAB_SIZE_FR - 2] + tokenizer_fr.encode(sentence) + [VOCAB_SIZE_FR - 1]
-              for sentence in corpus_fr]
+    model_outputs = [[vocab_size_target_lang - 2] + tokenizer_target_lang.encode(sentence) + [vocab_size_target_lang - 1]
+              for sentence in target_language_preprocessed]
 
-    idx_to_remove = [count for count, sentence in enumerate(inputs) if len(sentence) > config.MAX_LENGTH]
+    idx_to_remove = [count for count, sentence in enumerate(model_inputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
-        del inputs[idx]
-        del outputs[idx]
+        del model_inputs[idx]
+        del model_outputs[idx]
 
-    idx_to_remove = [count for count, sentence in enumerate(outputs) if len(sentence) > config.MAX_LENGTH]
+    idx_to_remove = [count for count, sentence in enumerate(model_outputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
-        del inputs[idx]
-        del outputs[idx]
+        del model_inputs[idx]
+        del model_outputs[idx]
 
     # padding
-    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
-    outputs = pad_sequences(outputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
+    model_inputs = pad_sequences(model_inputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
+    model_outputs = pad_sequences(model_outputs, value=0, padding='post', maxlen=config.MAX_LENGTH)
 
-    dataset = tf.data.Dataset.from_tensor_slices((inputs, outputs))
+    dataset = tf.data.Dataset.from_tensor_slices((model_inputs, model_outputs))
     dataset = dataset.cache()
     dataset = dataset.shuffle(config.BUFFER_SIZE).batch(config.BATCH_SIZE)
     dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
-    return dataset, VOCAB_SIZE_EN, VOCAB_SIZE_FR
+    return dataset, vocab_size_input_lang, vocab_size_target_lang
 
