@@ -1,11 +1,10 @@
 
-import re
-
-import tensorflow as tf
-import tensorflow_datasets as tfds
 from keras.preprocessing.sequence import pad_sequences
-
 from configs import config
+
+import tensorflow_datasets as tfds
+import tensorflow as tf
+import re
 
 
 def load_data(path : str) -> str:
@@ -48,11 +47,13 @@ def preprocess_data() -> (tf.data.Dataset, int, int):
     model_outputs = [[vocab_size_target_lang - 2] + tokenizer_target_lang.encode(sentence) + [vocab_size_target_lang - 1]
               for sentence in target_language_preprocessed]
 
+    # remove sentences > MAX_LENGTH in model_inputs
     idx_to_remove = [count for count, sentence in enumerate(model_inputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
         del model_inputs[idx]
         del model_outputs[idx]
 
+    # remove sentences > MAX_LENGTH in model_outputs
     idx_to_remove = [count for count, sentence in enumerate(model_outputs) if len(sentence) > config.MAX_LENGTH]
     for idx in reversed(idx_to_remove):
         del model_inputs[idx]
