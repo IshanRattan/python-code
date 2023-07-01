@@ -9,7 +9,7 @@ class MultiHeadAttention(Layer):
         super(MultiHeadAttention, self).__init__()
         self.nb_proj = nb_proj
 
-    def build(self, input_shape : tf.TensorShape):
+    def build(self, input_shape: tf.TensorShape):
         self.d_model = input_shape[-1]
         assert self.d_model % self.nb_proj == 0
         self.d_proj = self.d_model // self.nb_proj
@@ -19,7 +19,7 @@ class MultiHeadAttention(Layer):
         self.value_lin = Dense(units=self.d_model)
         self.final_lin = Dense(units=self.d_model)
 
-    def split_proj(self, inputs : tf.Tensor, batch_size : tf.Tensor) -> tf.Tensor:
+    def split_proj(self, inputs: tf.Tensor, batch_size: tf.Tensor) -> tf.Tensor:
         # inputs dim : (batch_size, seq_length, d_model)
 
         shape = (batch_size,
@@ -33,10 +33,10 @@ class MultiHeadAttention(Layer):
         # return dim : (batch_size, nb_proj, seq_length=MAX_LENGTH, d_proj)
         return tf.transpose(splitted_inputs, perm=[0, 2, 1, 3])
 
-    def call(self, queries : tf.Tensor,
-             keys : tf.Tensor,
-             values : tf.Tensor,
-             mask : tf.Tensor) -> tf.Tensor:
+    def call(self, queries: tf.Tensor,
+             keys: tf.Tensor,
+             values: tf.Tensor,
+             mask: tf.Tensor) -> tf.Tensor:
 
         batch_size = tf.shape(queries)[0]
 
@@ -69,10 +69,10 @@ class MultiHeadAttention(Layer):
 
 # Implementing attention mechanism : Attention(Q, K, V) = softmax( (Q * K) / sqrt(dk) ) * V
 # Q = queries matrix, K = keys matrix, V = values matrix, dk = dimension of keys matrix
-def scaled_dot_product_attention(queries : tf.Tensor,
-                                 keys : tf.Tensor,
-                                 values : tf.Tensor,
-                                 mask : tf.Tensor) -> tf.Tensor:
+def scaled_dot_product_attention(queries: tf.Tensor,
+                                 keys: tf.Tensor,
+                                 values: tf.Tensor,
+                                 mask: tf.Tensor) -> tf.Tensor:
 
     # how to multiply 4-d tensors?
     product = tf.matmul(queries, keys, transpose_b=True)

@@ -7,7 +7,7 @@ import tensorflow as tf
 import re
 
 
-def load_data(path : str) -> str:
+def load_data(path: str) -> str:
     with open(path, 'r', encoding='utf-8') as infile:
         return infile.read()
 
