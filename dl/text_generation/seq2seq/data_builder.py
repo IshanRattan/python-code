@@ -8,7 +8,7 @@ import pandas as pd
 class DataBuilder():
 
     @classmethod
-    def build_data(cls, sentences : list) -> (list, list, list):
+    def build_data(cls, sentences: list) -> (list, list, list):
 
         encoder_inputs = []
         decoder_inputs = []
@@ -25,7 +25,7 @@ class DataBuilder():
         return encoder_inputs, decoder_inputs, targets
 
     @classmethod
-    def filter_data(cls, data : pd.DataFrame) -> list:
+    def filter_data(cls, data: pd.DataFrame) -> list:
         data = data.dropna().drop_duplicates()
         data = data[data['sentence'].apply(lambda x: len(x) <= mapping['inputs']['MIN_SENT_LEN'])]
         data = data[data['sentence'].apply(lambda x: len(x.split(' ')) >= mapping['inputs']['MIN_WORDS'])]
@@ -34,7 +34,7 @@ class DataBuilder():
         return data.sentence.values[:mapping['inputs']['NUM_ROWS']]
 
     @classmethod
-    def fit_tokenizer(cls, texts : list, max_words : int, filter_spl_char : bool = True) -> Tokenizer:
+    def fit_tokenizer(cls, texts: list, max_words: int, filter_spl_char: bool = True) -> Tokenizer:
         if filter_spl_char:
             tokenizer = Tokenizer(num_words=max_words)
         else:
