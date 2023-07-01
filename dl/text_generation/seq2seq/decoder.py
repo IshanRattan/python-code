@@ -8,7 +8,7 @@ class Decoder():
         self.max_len_target = max_len_target
         self.num_words_output = num_words_output
 
-    def build(self, encoder_states):
+    def build(self, encoder_states) -> (Input, Dense):
         decoder_inputs = Input(shape=(self.max_len_target,))
         embedding_dec = Embedding(self.num_words_output, mapping['train']['EMBEDDING_DIM'])
         embedded_inputs_dec = embedding_dec(decoder_inputs)

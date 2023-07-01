@@ -8,7 +8,7 @@ class Encoder():
         self.max_len_input = max_len_input
         self.num_words_input = num_words_input
 
-    def build(self):
+    def build(self) -> (Input, list):
         encoder_inputs = Input(shape=(self.max_len_input,))
         embedding_enc = Embedding(self.num_words_input, mapping['train']['EMBEDDING_DIM'])
         embedded_inputs_enc = embedding_enc(encoder_inputs)
