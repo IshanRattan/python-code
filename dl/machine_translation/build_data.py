@@ -11,7 +11,7 @@ def load_data(path: str) -> str:
     with open(path, 'r', encoding='utf-8') as infile:
         return infile.read()
 
-def clean_corpus(corpus : str, non_breaking_prefix : list) -> list:
+def clean_corpus(corpus: str, non_breaking_prefix: list) -> list:
     for prefix in non_breaking_prefix:
         corpus = corpus.replace(prefix, prefix + '###')
 
