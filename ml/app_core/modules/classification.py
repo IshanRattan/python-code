@@ -1,3 +1,0 @@
-
-def classification(session):
-    pass

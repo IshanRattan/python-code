@@ -1,4 +1,0 @@
-
-
-def regression(session):
-    pass
