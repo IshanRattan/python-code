@@ -15,9 +15,7 @@ def evaluate(inp_sentence: str) -> tf.Tensor:
 
     for _ in range(config.MAX_LENGTH):
         predictions = transformer(enc_input, output, False) # (1, seq_length, vocab_size_fr)
-
         prediction = predictions[:, -1:, :]
-
         predicted_id = tf.cast(tf.argmax(prediction, axis=-1), tf.int32)
 
         if predicted_id == VOCAB_SIZE_FR-1:
@@ -29,10 +27,7 @@ def evaluate(inp_sentence: str) -> tf.Tensor:
 
 def translate(sentence: str):
     output = evaluate(sentence).numpy()
-
-    predicted_sentence = tokenizer_fr.decode(
-        [i for i in output if i < VOCAB_SIZE_FR-2]
-    )
+    predicted_sentence = tokenizer_fr.decode([i for i in output if i < VOCAB_SIZE_FR-2])
 
     print("Input: {}".format(sentence))
     print("Predicted translation: {}".format(predicted_sentence))
@@ -68,7 +63,6 @@ tokenizer_en, tokenizer_fr = get_tokenizers(input_language_preprocessed, target_
 
 VOCAB_SIZE_EN = tokenizer_en.vocab_size + 2
 VOCAB_SIZE_FR = tokenizer_fr.vocab_size + 2
-
 
 transformer = Transformer(vocab_size_enc=VOCAB_SIZE_EN,
                           vocab_size_dec=VOCAB_SIZE_FR,
