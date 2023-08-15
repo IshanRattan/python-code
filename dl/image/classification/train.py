@@ -1,5 +1,7 @@
 
 from torchvision import transforms, datasets
+from configs.config import data_dir
+
 import os
 
 
@@ -21,13 +23,18 @@ def transformations():
     }
     return data_transformations
 
-def create_datasets(data_dir):
-    data_transforms = transformations()
+def create_datasets(data_dir, transformation):
     # Create image folders for our training and validation data
     image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                              data_transforms[x])
+                                              transformation[x])
                       for x in ['train', 'val']}
     return image_datasets
 
+def get_dataset_size(dataset):
+    # Obtain dataset sizes from image_datasets
+    return {x: len(dataset[x]) for x in ['train', 'val']}
+
 def train_model():
-    pass
+    transformation = transformations()
+    datasets = create_datasets(data_dir, transformation)
+    dataset_sizes = get_dataset_size(datasets)
