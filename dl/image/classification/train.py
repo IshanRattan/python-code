@@ -21,6 +21,13 @@ def transformations():
     }
     return data_transformations
 
+def create_datasets(data_dir):
+    data_transforms = transformations()
+    # Create image folders for our training and validation data
+    image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
+                                              data_transforms[x])
+                      for x in ['train', 'val']}
+    return image_datasets
 
 def train_model():
     pass
