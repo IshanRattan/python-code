@@ -38,3 +38,7 @@ def train_model():
     transformation = transformations()
     datasets = create_datasets(data_dir, transformation)
     dataset_sizes = get_dataset_size(datasets)
+    # Use image_datasets to sample from the dataset
+    dataloaders = {x: torch.utils.data.DataLoader(datasets[x], batch_size=4,
+                                                  shuffle=True)
+                   for x in ['train', 'val']}
