@@ -1,6 +1,6 @@
 
 from torch.optim import lr_scheduler
-from configs.config import data_dir
+from configs import config
 
 import torch.backends.cudnn as cudnn
 import matplotlib.pyplot as plt
@@ -104,7 +104,7 @@ def imshow(inp, title=None):
 
 def pre_process():
     transformation = transformations()
-    datasets = create_datasets(data_dir, transformation)
+    datasets = create_datasets(config.data_dir, transformation)
     dataset_sizes = get_dataset_size(datasets)
 
     # Obtain class_names from image_datasets
@@ -225,14 +225,14 @@ def start_training():
     criterion = nn.CrossEntropyLoss()
 
     # In this step, we'll optimize all parameters of the model
-    optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+    optimizer_ft = optim.SGD(model_ft.parameters(), lr=config.lr, momentum=config.momentum)
 
     # We'll decay learning rate (lr) by a factor of 0.1 every 7 epochs
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=config.step_size, gamma=config.gamma)
 
     # Call our train_model() function with the ResNet model, the criterion, optimizer, learning rate scheduler, and number of epochs that we have defined.
     model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler, dataloaders, dataset_sizes,
-                           num_epochs=25)
+                           num_epochs=config.num_epochs)
 
     visualize_model(model_ft, device, dataloaders, class_names)
 
@@ -252,14 +252,14 @@ def start_training():
     criterion = nn.CrossEntropyLoss()
 
     # Observe that only parameters of final layer are being optimized as opposed to before
-    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
+    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=config.lr, momentum=config.momentum)
 
     # Decay LR by a factor of 0.1 every 7 epochs
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=config.step_size, gamma=config.gamma)
 
     # Train model_conv
     model_conv = train_model(model_conv, criterion, optimizer_conv,
-                             exp_lr_scheduler, dataloaders, dataset_sizes, num_epochs=25)
+                             exp_lr_scheduler, dataloaders, dataset_sizes, num_epochs=config.num_epochs)
 
     # Visualize model
     visualize_model(model_conv, device, dataloaders, class_names)
