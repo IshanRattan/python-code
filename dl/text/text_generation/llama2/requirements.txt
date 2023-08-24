@@ -1,0 +1,7 @@
+sentence_transformers
+scikit-learn
+bitsandbytes
+transformers
+levenshtein
+accelerate
+gradio
