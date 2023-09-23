@@ -1,11 +1,11 @@
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from langchain.chat_models import ChatOpenAI
-from prompts.sysPrompts import sys_prompt
 from utils.helper import action, transcribe
+from prompts.sysPrompts import sys_prompt
 from prompts import promptTemplates
-from utils.ui import JS
-from configs import config
 from typing import Iterator
+from configs import config
+from utils.ui import JS
 import gradio as gr
 import time
 import os
@@ -41,7 +41,7 @@ class Bot():
             else:
                 input = promptTemplates.firstPrompt.format(question=history[-1][0])
 
-        print(input)
+        # print(input)
         history_langchain_format.append(HumanMessage(content=input))
         gpt_response = self.llm(history_langchain_format)
         return gpt_response.content
@@ -53,9 +53,11 @@ with gr.Blocks(theme=gr.themes.Base(), title=config.tabTitle) as demo:
     gr.Markdown(config.markdownTxt)
 
     chatBot = gr.Chatbot(height=config.chatBotHeight)
+
     msg = gr.Textbox(placeholder=config.msgBoxPlaceholder,
                      container=config.msgBoxContainerVisible,
                      scale=config.msgBoxScale)
+
     audioBox = gr.Audio(label=config.audioBoxLabel,
                         source=config.audioBoxSource,
                         type=config.audioBoxSaveType,
