@@ -5,6 +5,7 @@ from utils.helper import action, transcribe
 from prompts import promptTemplates
 from utils.ui import JS
 from configs import config
+from typing import Iterator
 import gradio as gr
 import time
 import os
@@ -67,11 +68,11 @@ with gr.Blocks(theme=gr.themes.Base(), title=config.tabTitle) as demo:
         clear = gr.Button(config.btnClearText)
 
 
-    def user(userMessage, history):
+    def user(userMessage: str, history: list) -> (str, list):
         return "", history + [[userMessage, None]]
 
 
-    def bot(history):
+    def bot(history: list) -> Iterator[str]:
 
         botMessage = tutor.predict(history[-1][0], history)
         history[-1][1] = ""
