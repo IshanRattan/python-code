@@ -62,9 +62,9 @@ Your ONLY goal is to help me get a correct solution. Once I reach the correct so
 
         numbers = re.findall(r'\d+\d+', query)
         target_words = query.lower().split()
-        other_words = ['number sort']
+        # other_words = ['number sort']
         order_keywords = ['order', 'ordered', 'ordering', 'arrange', 'arranged', 'arranging', 'sort', 'sorted', 'sorting']
-        number_keywords = ['number', 'numbers', 'integer', 'integers', 'digit', 'digits', 'values']
+        # number_keywords = ['number', 'numbers', 'integer', 'integers', 'digit', 'digits', 'values']
         direction_keywords = ['small', 'smaller', 'smallest', 'lowest', 'highest', 'large', 'larger', 'largest',
                               'biggest', 'ascending', 'descending', 'increasing', 'decreasing']
 
