@@ -129,7 +129,7 @@ class Llama(Prompts):
                         max_new_tokens,
                         top_p,
                         top_k):
-        return self._model.generate(input['input_ids'].to("cuda:0"),  # .to("cuda:0"),
+        return self._model.generate(input['input_ids'].to("cuda:0"), 
                                     max_new_tokens=max_new_tokens,
                                     temperature=temperature,
                                     top_p=top_p,
