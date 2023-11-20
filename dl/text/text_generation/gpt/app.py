@@ -59,7 +59,7 @@ with gr.Blocks(theme=gr.themes.Base(), title=config.tabTitle) as demo:
                      scale=config.msgBoxScale)
 
     audioBox = gr.Audio(label=config.audioBoxLabel,
-                        source=config.audioBoxSource,
+                        sources=config.audioBoxSource,
                         type=config.audioBoxSaveType,
                         visible=config.audioBoxVisible,
                         elem_id=config.audioBoxId)
@@ -92,9 +92,9 @@ with gr.Blocks(theme=gr.themes.Base(), title=config.tabTitle) as demo:
     audioBtn.click(fn=action, inputs=audioBtn, outputs=audioBtn).\
         then(fn=lambda x: None,
              inputs=audioBox,
-             _js=JS.recordAudio()).\
+             js=JS.recordAudio()).\
         then(fn=lambda :None,
-             _js=JS.validateState()).\
+             js=JS.validateState()).\
         success(fn=transcribe,
              inputs=audioBox,
              outputs=msg).\
