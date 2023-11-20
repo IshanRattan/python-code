@@ -7,7 +7,7 @@ class JS():
     @classmethod
     @lru_cache(maxsize=4)
     def recordAudio(cls):
-        return """function audioRecord() {var xPathRes = document.evaluate ('//*[@id="audio"]//button', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+        return """function audioRecord() {var xPathRes = document.evaluate ('//*[contains(@class, "record")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
             xPathRes.singleNodeValue.click();
 
             let btn = document.getElementById('btn');
