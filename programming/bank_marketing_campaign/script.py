@@ -26,3 +26,5 @@ campaign.drop(['month', 'day'], axis=1, inplace=True)
 campaign.to_csv('campaign.csv')
 
 
+economics = infile[['client_id', 'cons_price_idx', 'euribor_three_months']]
+economics.to_csv('economics.csv')
