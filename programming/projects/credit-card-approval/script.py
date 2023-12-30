@@ -100,7 +100,7 @@ logreg.fit(rescaledX_train, y_train)
 
 
 # Import confusion_matrix
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, accuracy_score
 
 # Use logreg to predict instances from the test set and store it
 y_pred = logreg.predict(rescaledX_test)
@@ -110,3 +110,30 @@ print("Accuracy of logistic regression classifier: ", logreg.score(rescaledX_tes
 
 # Print the confusion matrix of the logreg model
 print(confusion_matrix(y_test, y_pred))
+
+
+# Import GridSearchCV
+from sklearn.model_selection import GridSearchCV
+
+# Define the grid of values for tol and max_iter
+tol = [.01, .001, .0001]
+max_iter = [100, 150, 200]
+
+# Create a dictionary where tol and max_iter are keys and the lists of their values are corresponding values
+param_grid = dict(tol=tol, max_iter=max_iter)
+
+
+# Instantiate GridSearchCV with the required parameters
+grid_model = GridSearchCV(estimator=logreg, param_grid=param_grid, cv=5)
+
+# Fit grid_model to the data
+grid_model_result = grid_model.fit(rescaledX_train, y_train)
+
+# Summarize results
+best_score, best_params = grid_model_result.best_score_, grid_model_result.best_params_
+print(f"Best: {best_score} using {best_params}")
+
+# Extract the best model and evaluate it on the test set
+best_model = grid_model.best_estimator_
+print("Accuracy of logistic regression classifier: ",
+      accuracy_score(best_model.predict(rescaledX_test), y_test))
