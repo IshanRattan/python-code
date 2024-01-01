@@ -4,7 +4,7 @@
 import pandas as pd
 
 # Load dataset
-cc_apps = pd.read_csv("/Users/ishanrattan/Desktop/Study/github/python-code/programming/projects/credit-card-approval/datasets/cc_approvals.data",
+cc_apps = pd.read_csv("datasets/cc_approvals.data",
                       header=None)
 
 # Inspect data
