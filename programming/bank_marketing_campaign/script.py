@@ -43,10 +43,11 @@ euribor_three_months	float	Euro Interbank Offered Rate (euribor) three-month rat
 import pandas as pd
 import numpy as np
 
+# load dataset
 infile = pd.read_csv("bank_marketing.csv")
 infile.head()
 
-
+# columns for client data
 client = infile[['client_id', 'age', 'job', 'marital', 'education', 'credit_default', 'mortgage']]
 client['job'] = client['job'].str.replace('.', '_')
 client['education'] = client['education'].str.replace('.', '_').replace("unknown", np.NaN)
@@ -56,7 +57,7 @@ client['credit_default'] = client['credit_default'].replace('no', 'false').repla
 client['credit_default'] = client['credit_default'].map({'false': False, 'true': True})
 client.to_csv('client.csv')
 
-
+# columns for campaign data
 campaign = infile[['client_id', 'number_contacts', 'contact_duration', 'previous_campaign_contacts', 'previous_outcome', 'campaign_outcome', 'month', 'day']]
 campaign['previous_outcome'] = campaign['previous_outcome'].str.replace('nonexistent', 'failure')
 campaign['previous_outcome'] = campaign['previous_outcome'].map({'failure':False, 'success':True})
@@ -66,6 +67,6 @@ campaign['last_contact_date'] = pd.to_datetime(campaign['last_contact_date'], fo
 campaign.drop(['month', 'day'], axis=1, inplace=True)
 campaign.to_csv('campaign.csv')
 
-
+# columns for economics data
 economics = infile[['client_id', 'cons_price_idx', 'euribor_three_months']]
 economics.to_csv('economics.csv')
