@@ -9,14 +9,14 @@ You have been asked to work with a bank to clean the data they collected as part
 They have supplied you with a csv file called "bank_marketing.csv", which you will need to clean, reformat, and split the data, saving three final csv files. Specifically, the three files should have the names and contents as outlined below:
 
 client.csv
-column	data type	description	cleaning requirements
-client_id	integer	Client ID	N/A
-age	integer	Client's age in years	N/A
-job	object	Client's type of job	Change "." to "_"
-marital	object	Client's marital status	N/A
-education	object	Client's level of education	Change "." to "_" and "unknown" to np.NaN
-credit_default	bool	Whether the client's credit is in default	Convert to boolean data type
-mortgage	bool	Whether the client has an existing mortgage (housing loan)	Convert to boolean data type
+column	        data type	    description	                                                cleaning requirements
+client_id	    integer	        Client ID	                                                        N/A
+age	            integer	        Client's age in years	                                            N/A
+job	            object	        Client's type of job	                                        Change "." to "_"
+marital	        object	        Client's marital status	                                            N/A
+education	    object	        Client's level of education	                    Change "." to "_" & "unknown" to np.NaN
+credit_default	bool	        Whether the client's credit is in default	        Convert to boolean data type
+mortgage	    bool	        Whether the client has an existing mortgage 	    Convert to boolean data type
 
 campaign.csv
 column	data type	description	cleaning requirements
