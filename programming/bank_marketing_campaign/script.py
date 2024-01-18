@@ -19,15 +19,20 @@ credit_default	bool	        Whether the client's credit is in default	        Co
 mortgage	    bool	        Whether the client has an existing mortgage 	    Convert to boolean data type
 
 campaign.csv
-column	data type	description	cleaning requirements
-client_id	integer	Client ID	N/A
-number_contacts	integer	Number of contact attempts to the client in the current campaign	N/A
-contact_duration	integer	Last contact duration in seconds	N/A
-previous_campaign_contacts	integer	Number of contact attempts to the client in the previous campaign	N/A
-previous_outcome	bool	Outcome of the previous campaign	Convert to boolean data type
-campaign_outcome	bool	Outcome of the current campaign	Convert to boolean data type
-last_contact_date	datetime	Last date the client was contacted	Create from a combination of day, month, and a newly created year column (which should have a value of 2022);
-Format = "YYYY-MM-DD"
+column	                     data type	    description                                         cleaning requirements
+client_id	                 integer        Client ID	                                                N/A
+number_contacts	             integer	    # of contact attempts to client in current campaign	        N/A
+contact_duration	         integer	    Last contact duration in seconds	                        N/A
+previous_campaign_contacts	 integer	    # of contact attempts to client in previous campaign	    N/A
+previous_outcome	         bool	        Outcome of the previous campaign	                    Convert to boolean
+campaign_outcome	         bool	        Outcome of the current campaign	                        Convert to boolean
+last_contact_date	         datetime	    Last date the client was contacted	                    Create from a
+                                                                                                    combination of day,
+                                                                                                    month, and a newly
+                                                                                                    created year column
+                                                                                                    (which should have
+                                                                                                    a value of 2022);
+                                                                                                    Format= "YYYY-MM-DD"
 
 economics.csv
 column	data type	description	cleaning requirements
