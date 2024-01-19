@@ -18,6 +18,7 @@ education	    object	        Client's level of education	                    Cha
 credit_default	bool	        Whether the client's credit is in default	        Convert to boolean data type
 mortgage	    bool	        Whether the client has an existing mortgage 	    Convert to boolean data type
 
+
 campaign.csv
 column	                     data type	    description                                         cleaning requirements
 client_id	                 integer        Client ID	                                                N/A
@@ -35,10 +36,11 @@ last_contact_date	         datetime	    Last date the client was contacted	     
                                                                                                     Format= "YYYY-MM-DD"
 
 economics.csv
-column	data type	description	cleaning requirements
-client_id	integer	Client ID	N/A
-cons_price_idx	float	Consumer price index (monthly indicator)	N/A
-euribor_three_months	float	Euro Interbank Offered Rate (euribor) three-month rate (daily indicator)	N/A
+column	                    data type	    description	                                        cleaning requirements
+client_id	                integer	        Client ID	                                                N/A
+cons_price_idx	            float	        Consumer price index (monthly indicator)	                N/A
+euribor_three_months	    float	        Euro Interbank Offered Rate (euribor)                       N/A
+                                            three-month rate (daily indicator)
 
 """
 
