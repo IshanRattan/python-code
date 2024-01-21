@@ -36,11 +36,15 @@ crops = pd.read_csv("soil_measures.csv")
 crops['crop'] = crops['crop'].astype('category')
 crops['crop_code'] = crops['crop'].cat.codes
 
-# Write your code here
-crops.isna().sum()
+# Check NA vals
+print(crops.isna().sum())
 
-X_train, X_test, y_train, y_test = train_test_split(crops.drop(['crop', 'crop_code'], axis=1), crops['crop_code'], test_size=.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(crops.drop(['crop', 'crop_code'], axis=1),
+                                                    crops['crop_code'],
+                                                    test_size=.2,
+                                                    random_state=42)
 
+# Iterate over each feature to build a model
 for feature in ['N', 'P', 'K', 'ph']:
     log_reg = LogisticRegression(max_iter=2000, multi_class='multinomial')
     log_reg.fit(X_train[[feature]], y_train)
@@ -48,6 +52,7 @@ for feature in ['N', 'P', 'K', 'ph']:
     feature_performance = f1_score(y_pred, y_test, average='weighted')
     print(f"F1-score for {feature}: {feature_performance}")
 
+# Corr heatmap
 sns.heatmap(crops.corr(), annot=True)
 
 final_features = ["N", "K", "ph"]
