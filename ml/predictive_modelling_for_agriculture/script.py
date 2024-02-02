@@ -58,7 +58,11 @@ sns.heatmap(crops.corr(), annot=True)
 # Final_features = ["N", "K", "ph"] based on heatmap
 # Split data into train, test batches
 X_train, X_test, y_train, y_test = train_test_split(crops.drop(['crop', 'P', 'crop_code'], axis=1), crops['crop_code'], test_size=.2, random_state=42)
+
+# Initiate logistic regression as log_reg
 log_reg = LogisticRegression(max_iter=2000, multi_class='multinomial')
+
+# Train the model using features as X_train and target as y_train
 log_reg.fit(X_train, y_train)
 y_pred = log_reg.predict(X_test)
 model_performance = f1_score(y_pred, y_test, average='weighted')
