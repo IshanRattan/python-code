@@ -64,6 +64,8 @@ log_reg = LogisticRegression(max_iter=2000, multi_class='multinomial')
 
 # Train the model using features as X_train and target as y_train
 log_reg.fit(X_train, y_train)
+
+# Predctions using test data
 y_pred = log_reg.predict(X_test)
 model_performance = f1_score(y_pred, y_test, average='weighted')
 print(f"F1-score : {model_performance}")
