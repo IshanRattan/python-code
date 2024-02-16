@@ -34,3 +34,4 @@ write_log = PythonOperator(task_id='save_ts',
                            python_callable=save_time_stamp,
                            dag=dag)
 
+copy_files_task >> write_log
