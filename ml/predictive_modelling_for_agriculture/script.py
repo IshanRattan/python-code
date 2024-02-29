@@ -24,12 +24,13 @@
 
 
 # All required libraries are imported here for you.
-import matplotlib.pyplot as plt
-import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-import seaborn as sns
 from sklearn.metrics import f1_score
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
 # Load the dataset
 crops = pd.read_csv("soil_measures.csv")
