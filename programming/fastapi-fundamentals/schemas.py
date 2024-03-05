@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 
-
+# data schema
 class Car(BaseModel):
     id: int
     size: str
