@@ -4,7 +4,6 @@ from datetime import datetime
 from fastapi import FastAPI, HTTPException
 
 
-
 app = FastAPI()
 
 db = [{'id': 1, 'size': 's', 'fuel': 'gasoline', 'doors': 4, 'transmission': 'auto'},
@@ -32,3 +31,11 @@ def get_cars(size: Optional[str]=None, doors: Optional[int]=None) -> List:
         raise HTTPException(status_code=404, detail='No car with doors greater than 5!')
 
     return result
+
+@app.get('/api/cars/{id}')
+def car_by_id(id: int) -> dict:
+    result = [car for car in db if car['id'] == id]
+    if result:
+        return result[0]
+    else:
+        raise HTTPException(status_code=404, detail=f'No car with id= {id}.')
