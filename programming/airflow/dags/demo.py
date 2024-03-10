@@ -28,3 +28,9 @@ dag = DAG('cp_pyfiles_save_ts',
 copy_files_task = BashOperator(task_id='copy_files_task',
                                bash_command=bash_cp_cmd,
                                dag=dag)
+
+
+write_log = PythonOperator(task_id='save_ts',
+                           python_callable=save_time_stamp,
+                           dag=dag)
+
