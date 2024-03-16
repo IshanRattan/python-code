@@ -30,5 +30,9 @@ class eCommNN(nn.Module):
             nn.Linear(64 * 13 * 13, 1),
         )
 
+    def forward(self, x):
+        x = self.feature_extractor(x)
+        x = self.classifier(x)
+        return x
 
 
