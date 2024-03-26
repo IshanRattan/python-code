@@ -14,4 +14,17 @@ import csv
 default_args = {'owner':'ishan'}
 
 
+@dag(dag_id='data_transformation_storage_pipeline',
+     description='Data transformation and storage pipeline.',
+     default_args=default_args,
+     start_date=days_ago(1),
+     schedule_interval='@once',
+     tags=['sqlite', 'python', 'xcoms', 'taskflow_api'])
+def data_transformation_storage_pipeline():
+
+    @task
+    def read_dataset():
+        df = pd.read_csv('/root/airflow/datasets/car_data.csv')
+        return df.to_json()
+
 
