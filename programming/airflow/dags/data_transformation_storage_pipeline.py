@@ -41,4 +41,30 @@ def data_transformation_storage_pipeline():
 
         sqlite_operator.execute(context=None)
 
+    @task
+    def insert_selected_data(**kwargs):
+        ti = kwargs['ti']
+        json_data = ti.xcom_pull(task_ids='read_dataset')
+        df = pd.read_json(json_data)
+        df = df[['Brand', 'Model', 'BodyStyle', 'Seats', 'PriceEuro']]
+        df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
+        insert_query = """
+        INSERT INTO car_data (brand, model, body_style, seat, price)
+        VALUES (?, ?, ?, ?, ?)
+        """
+
+        parameters = df.to_dict(orient='records')
+        for record in parameters:
+            sqlite_operator = SqliteOperator(
+                task_id='insert_data',
+                sqlite_conn_id='my_sqlite_conn',
+                sql=insert_query,
+                parameters=tuple(record.values()))
+
+            sqlite_operator.execute(context=None)
+
+    read_dataset() >> create_table() >> insert_selected_data()
+
+
+data_transformation_storage_pipeline()
