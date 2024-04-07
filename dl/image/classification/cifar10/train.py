@@ -3,6 +3,7 @@
 from image_transformation import transformations
 import torch.nn as nn
 import torchvision
+import torch
 
 train_set = torchvision.datasets.CIFAR10(root=data_path, train=True, transform=transformations()['train'],
                                          download=True)
