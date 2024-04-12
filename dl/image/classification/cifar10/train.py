@@ -5,6 +5,7 @@ import torch.nn as nn
 import torchvision
 import torch
 
+from model_training import train_model
 from net import Net
 
 train_set = torchvision.datasets.CIFAR10(root=data_path, train=True, transform=transformations()['train'],
