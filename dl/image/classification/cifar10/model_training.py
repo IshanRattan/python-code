@@ -4,7 +4,7 @@ import torch
 import time
 import copy
 
-
+import config
 
 def train_model(model, criterion, optimizer, scheduler, dataloaders, dataset_sizes, num_epochs=25):
 
