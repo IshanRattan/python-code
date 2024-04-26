@@ -29,8 +29,8 @@ def train_model(model, criterion, optimizer, scheduler, dataloaders, dataset_siz
             running_corrects = 0
 
             for inputs, labels in dataloaders[phase]:
-                inputs = inputs.to(device)
-                labels = labels.to(device)
+                inputs = inputs.to(config.device)
+                labels = labels.to(config.device)
 
                 optimizer.zero_grad()
 
