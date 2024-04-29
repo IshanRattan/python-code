@@ -7,6 +7,7 @@ import torch
 
 from model_training import train_model
 from net import Net
+import config
 
 train_set = torchvision.datasets.CIFAR10(root=data_path, train=True, transform=transformations()['train'],
                                          download=True)
