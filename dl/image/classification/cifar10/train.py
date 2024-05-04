@@ -15,7 +15,7 @@ val_set = torchvision.datasets.CIFAR10(root=config.data_path, train=False, trans
 
 
 datasets = {'train':train_set, 'val':val_set}
-dataloaders = {x: torch.utils.data.DataLoader(dataset=datasets[x], batch_size=batch_size, shuffle=True)
+dataloaders = {x: torch.utils.data.DataLoader(dataset=datasets[x], batch_size=config.batch_size, shuffle=True)
               for x in ['train', 'val']}
 
 dataset_sizes = {x: len(datasets[x]) for x in ['train', 'val']}
