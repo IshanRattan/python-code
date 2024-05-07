@@ -22,7 +22,7 @@ dataset_sizes = {x: len(datasets[x]) for x in ['train', 'val']}
 print(dataset_sizes)
 
 
-model = Net().to(device)
+model = Net().to(config.device)
 # x = torch.randn(512, 3, 32, 32).to(device)
 # # model(x)
 # # print(model)
