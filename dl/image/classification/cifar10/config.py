@@ -7,3 +7,4 @@ device = 'mps'
 
 ########################
 learning_rate = .01
+momentum=.9
