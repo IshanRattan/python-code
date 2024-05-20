@@ -9,5 +9,5 @@ device = 'mps'
 ########################
 learning_rate = .01
 momentum = .9
-scheduler_step_size=1000
-scheduler_gamma=0.1
+scheduler_step_size = 1000
+scheduler_gamma = 0.1
