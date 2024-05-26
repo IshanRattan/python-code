@@ -33,4 +33,4 @@ model, losses = train_model(model,
                        criterion,
                        optimizer,
                        _lr_scheduler,
-                       num_epochs=5)
+                       num_epochs=config.epochs)
