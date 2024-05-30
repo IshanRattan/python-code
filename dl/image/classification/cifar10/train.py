@@ -31,8 +31,12 @@ model = Net().to(config.device)
 # # model(x)
 # # print(model)
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate, momentum=config.momentum)
-_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=config.scheduler_step_size, gamma=config.scheduler_gamma)
+optimizer = torch.optim.SGD(model.parameters(),
+                            lr=config.learning_rate,
+                            momentum=config.momentum)
+_lr_scheduler = lr_scheduler.StepLR(optimizer,
+                                    step_size=config.scheduler_step_size,
+                                    gamma=config.scheduler_gamma)
 model, losses = train_model(model,
                        criterion,
                        optimizer,
