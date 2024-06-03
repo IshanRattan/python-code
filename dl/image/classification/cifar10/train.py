@@ -41,4 +41,6 @@ model, losses = train_model(model,
                        criterion,
                        optimizer,
                        _lr_scheduler,
+                       dataloaders,
+                       dataset_sizes,
                        num_epochs=config.epochs)
