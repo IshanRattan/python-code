@@ -1,4 +1,3 @@
-
 """
 You just got hired as the first and only data practitioner at a small business experiencing exponential growth.
 The company needs more structured processes, guidelines, and standards.
@@ -28,11 +27,8 @@ Following is the data in the `datasets` folder:
       },
      ...
     }
-    
+
 """
-
-
-
 
 import pandas as pd
 
@@ -52,15 +48,16 @@ final_columns = ["employee_id", "employee_first_name", "employee_last_name", "em
 
 # df contains employee emergency contacts details
 emergency_contacts = pd.read_excel('./datasets/employee_information.xlsx',
-                                    sheet_name='emergency_contacts',
-                                    header=None,
-                                    names=emergency_contacts_header)
+                                   sheet_name='emergency_contacts',
+                                   header=None,
+                                   names=emergency_contacts_header)
 
 # df contains employee, team, roles details
 teams = pd.read_json('./datasets/employee_roles.json', orient='index')
 
 # merging df based on unique val but with different colnames
-employees_temp = addresses_emp.merge(addresses_office, left_on='employee_country', right_on='office_country',how='left')
+employees_temp = addresses_emp.merge(addresses_office, left_on='employee_country', right_on='office_country',
+                                     how='left')
 
 employees_temp = employees_temp.merge(emergency_contacts, on='employee_id')
 
@@ -74,6 +71,5 @@ for col in ["office", "office_country", "office_city", "office_street", "office_
     employees_final[col].fillna('Remote', inplace=True)
 
 employees_final = employees_final.set_index('employee_id')
-
 
 
